@@ -1,23 +1,24 @@
 <?php
 
 /**
- * Plugin Name: Custom Block Attributes
- * Description:  Añade un campo para atributos HTML personalizados en las opciones avanzadas de Gutenberg
- * Version: 1.0.0
- * Author: Tu Nombre
- * Text Domain: custom-block-attributes
+ * Clase para añadir atributos HTML personalizados en las opciones avanzadas de Gutenberg
  */
-
-// Evitar acceso directo
-if (!defined('ABSPATH')) {
-    exit;
-}
-
 class Custom_Block_Attributes
 {
+    /**
+     * URL base para los assets
+     */
+    private $assets_url;
 
-    public function __construct()
+    /**
+     * Constructor
+     * 
+     * @param string $assets_url URL base para los assets del bloque
+     */
+    public function __construct($assets_url)
     {
+        $this->assets_url = $assets_url;
+
         add_action('enqueue_block_editor_assets', array($this, 'enqueue_editor_assets'));
         add_filter('render_block', array($this, 'render_custom_attributes'), 10, 2);
     }
@@ -27,12 +28,25 @@ class Custom_Block_Attributes
      */
     public function enqueue_editor_assets()
     {
+        $editor_js_file = $this->get_editor_file_path();
+
         wp_enqueue_script(
-            'custom-block-attributes-editor',
-            plugins_url('editor.js', __FILE__),
+            'gutenberg-addons-custom-block-attributes-editor',
+            $this->assets_url . 'editor.js',
             array('wp-blocks', 'wp-element', 'wp-editor', 'wp-components', 'wp-compose', 'wp-hooks'),
-            filemtime(plugin_dir_path(__FILE__) . 'editor.js')
+            filemtime($editor_js_file)
         );
+    }
+
+    /**
+     * Obtener la ruta del archivo editor.js
+     * 
+     * @return string Ruta completa al archivo editor.js
+     */
+    private function get_editor_file_path()
+    {
+        $plugin_dir = plugin_dir_path(dirname(__DIR__));
+        return $plugin_dir . 'blocks/custom-block-attributes/editor.js';
     }
 
     /**
@@ -71,6 +85,3 @@ class Custom_Block_Attributes
         return $block_content;
     }
 }
-
-// Inicializar el plugin
-new Custom_Block_Attributes();
