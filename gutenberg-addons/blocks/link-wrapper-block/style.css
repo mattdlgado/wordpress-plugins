@@ -1,0 +1,17 @@
+/**
+ * Estilos para el frontend del Link Wrapper Block
+ */
+
+.wp-block-custom-link-wrapper {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.wp-block-custom-link-wrapper>* {
+    pointer-events: none;
+}
+
+.wp-block-custom-link-wrapper {
+    pointer-events: auto;
+}
