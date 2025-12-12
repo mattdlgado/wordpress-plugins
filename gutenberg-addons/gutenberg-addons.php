@@ -4,7 +4,7 @@
  * Plugin Name: Gutenberg Addons
  * Description: Una colección modular de bloques personalizados de Gutenberg que incluye atributos HTML personalizados, bloques de botón y contenedores de enlaces
  * Version: 1.0.0
- * Author: Tu Nombre
+ * Author: Matt Delgado
  * Text Domain: gutenberg-addons
  * Requires at least: 6.0
  * Requires PHP: 7.4

@@ -28,8 +28,7 @@ class Custom_Block_Attributes
      */
     public function enqueue_editor_assets()
     {
-        $editor_js_path = str_replace(plugin_dir_url(dirname(__DIR__)), '', $this->assets_url) . 'editor.js';
-        $editor_js_file = plugin_dir_path(dirname(__DIR__)) . str_replace(plugin_dir_url(dirname(__DIR__)), '', $this->assets_url) . 'editor.js';
+        $editor_js_file = $this->get_editor_file_path();
 
         wp_enqueue_script(
             'gutenberg-addons-custom-block-attributes-editor',
@@ -37,6 +36,17 @@ class Custom_Block_Attributes
             array('wp-blocks', 'wp-element', 'wp-editor', 'wp-components', 'wp-compose', 'wp-hooks'),
             filemtime($editor_js_file)
         );
+    }
+
+    /**
+     * Obtener la ruta del archivo editor.js
+     * 
+     * @return string Ruta completa al archivo editor.js
+     */
+    private function get_editor_file_path()
+    {
+        $plugin_dir = plugin_dir_path(dirname(__DIR__));
+        return $plugin_dir . 'blocks/custom-block-attributes/editor.js';
     }
 
     /**
