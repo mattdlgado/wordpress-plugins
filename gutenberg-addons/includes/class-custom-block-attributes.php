@@ -45,7 +45,7 @@ class Custom_Block_Attributes
      */
     private function get_editor_file_path()
     {
-        $plugin_dir = plugin_dir_path(dirname(__DIR__));
+        $plugin_dir = plugin_dir_path(dirname(dirname(__FILE__)));
         return $plugin_dir . 'blocks/custom-block-attributes/editor.js';
     }
 
