@@ -45,8 +45,11 @@ class Custom_Block_Attributes
      */
     private function get_editor_file_path()
     {
-        $plugin_dir = plugin_dir_path(dirname(dirname(__FILE__)));
-        return $plugin_dir . 'blocks/custom-block-attributes/editor.js';
+        // __FILE__ está en: gutenberg-addons/includes/class-custom-block-attributes.php
+        // dirname(__FILE__) es: gutenberg-addons/includes/
+        // dirname(dirname(__FILE__)) es: gutenberg-addons/
+        $plugin_dir = dirname(dirname(__FILE__));
+        return $plugin_dir . '/blocks/custom-block-attributes/editor.js';
     }
 
     /**
