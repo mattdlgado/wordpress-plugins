@@ -49,10 +49,8 @@
         },
 
         save: function (props) {
-            return el('div', {
-                className: 'svg-block-content',
-                dangerouslySetInnerHTML: { __html: props.attributes.svgCode }
-            });
+            // Return null to use server-side rendering with sanitization
+            return null;
         }
     });
 })(
