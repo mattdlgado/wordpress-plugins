@@ -73,6 +73,9 @@ class Gutenberg_Addons
 
         // Registrar Link Wrapper Block
         $this->register_link_wrapper_block();
+
+        // Registrar SVG Block
+        $this->register_svg_block();
     }
 
     /**
@@ -140,6 +143,41 @@ class Gutenberg_Addons
         }
 
         return $content;
+    }
+
+    /**
+     * Registrar el bloque SVG
+     */
+    private function register_svg_block()
+    {
+        $block_path = $this->plugin_path . 'blocks/svg-block/';
+
+        wp_register_script(
+            'gutenberg-addons-svg-block',
+            $this->plugin_url . 'blocks/svg-block/svg-block.js',
+            array('wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n'),
+            filemtime($block_path . 'svg-block.js')
+        );
+
+        wp_register_style(
+            'gutenberg-addons-svg-block-editor',
+            $this->plugin_url . 'blocks/svg-block/editor.css',
+            array('wp-edit-blocks'),
+            filemtime($block_path . 'editor.css')
+        );
+
+        wp_register_style(
+            'gutenberg-addons-svg-block-style',
+            $this->plugin_url . 'blocks/svg-block/style.css',
+            array(),
+            filemtime($block_path . 'style.css')
+        );
+
+        register_block_type('custom/svg-block', array(
+            'editor_script' => 'gutenberg-addons-svg-block',
+            'editor_style' => 'gutenberg-addons-svg-block-editor',
+            'style' => 'gutenberg-addons-svg-block-style',
+        ));
     }
 }
 

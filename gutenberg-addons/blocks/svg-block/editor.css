@@ -1,0 +1,30 @@
+.svg-block-editor {
+    padding: 20px;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.svg-block-editor textarea {
+    font-family: monospace;
+    font-size: 14px;
+}
+
+.svg-block-editor .svg-preview {
+    margin-top: 20px;
+    padding: 20px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.svg-block-editor .svg-preview p {
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.svg-block-editor .svg-preview svg {
+    max-width: 100%;
+    height: auto;
+}
