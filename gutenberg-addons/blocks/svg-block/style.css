@@ -1,0 +1,11 @@
+.svg-block-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.svg-block-content svg {
+    max-width: 100%;
+    height: auto;
+}

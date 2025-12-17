@@ -73,6 +73,9 @@ class Gutenberg_Addons
 
         // Registrar Link Wrapper Block
         $this->register_link_wrapper_block();
+
+        // Registrar SVG Block
+        $this->register_svg_block();
     }
 
     /**
@@ -140,6 +143,170 @@ class Gutenberg_Addons
         }
 
         return $content;
+    }
+
+    /**
+     * Registrar el bloque SVG
+     */
+    private function register_svg_block()
+    {
+        $block_path = $this->plugin_path . 'blocks/svg-block/';
+
+        wp_register_script(
+            'gutenberg-addons-svg-block',
+            $this->plugin_url . 'blocks/svg-block/svg-block.js',
+            array('wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n'),
+            filemtime($block_path . 'svg-block.js')
+        );
+
+        wp_register_style(
+            'gutenberg-addons-svg-block-editor',
+            $this->plugin_url . 'blocks/svg-block/editor.css',
+            array('wp-edit-blocks'),
+            filemtime($block_path . 'editor.css')
+        );
+
+        wp_register_style(
+            'gutenberg-addons-svg-block-style',
+            $this->plugin_url . 'blocks/svg-block/style.css',
+            array(),
+            filemtime($block_path . 'style.css')
+        );
+
+        register_block_type('custom/svg-block', array(
+            'editor_script' => 'gutenberg-addons-svg-block',
+            'editor_style' => 'gutenberg-addons-svg-block-editor',
+            'style' => 'gutenberg-addons-svg-block-style',
+            'render_callback' => array($this, 'svg_block_render'),
+        ));
+    }
+
+    /**
+     * Render callback para el bloque SVG
+     * Sanitiza el código SVG antes de renderizarlo
+     */
+    public function svg_block_render($attributes, $content)
+    {
+        if (empty($attributes['svgCode'])) {
+            return '';
+        }
+
+        // Permitir solo elementos y atributos SVG seguros
+        $allowed_svg_tags = array(
+            'svg' => array(
+                'xmlns' => true,
+                'width' => true,
+                'height' => true,
+                'viewBox' => true,
+                'fill' => true,
+                'stroke' => true,
+                'stroke-width' => true,
+                'class' => true,
+                'id' => true,
+                'aria-hidden' => true,
+                'aria-labelledby' => true,
+                'role' => true,
+            ),
+            'circle' => array(
+                'cx' => true,
+                'cy' => true,
+                'r' => true,
+                'fill' => true,
+                'stroke' => true,
+                'stroke-width' => true,
+            ),
+            'rect' => array(
+                'x' => true,
+                'y' => true,
+                'width' => true,
+                'height' => true,
+                'rx' => true,
+                'ry' => true,
+                'fill' => true,
+                'stroke' => true,
+                'stroke-width' => true,
+            ),
+            'path' => array(
+                'd' => true,
+                'fill' => true,
+                'stroke' => true,
+                'stroke-width' => true,
+                'stroke-linecap' => true,
+                'stroke-linejoin' => true,
+            ),
+            'line' => array(
+                'x1' => true,
+                'y1' => true,
+                'x2' => true,
+                'y2' => true,
+                'stroke' => true,
+                'stroke-width' => true,
+            ),
+            'polyline' => array(
+                'points' => true,
+                'fill' => true,
+                'stroke' => true,
+                'stroke-width' => true,
+            ),
+            'polygon' => array(
+                'points' => true,
+                'fill' => true,
+                'stroke' => true,
+                'stroke-width' => true,
+            ),
+            'ellipse' => array(
+                'cx' => true,
+                'cy' => true,
+                'rx' => true,
+                'ry' => true,
+                'fill' => true,
+                'stroke' => true,
+                'stroke-width' => true,
+            ),
+            'text' => array(
+                'x' => true,
+                'y' => true,
+                'font-size' => true,
+                'font-family' => true,
+                'fill' => true,
+                'text-anchor' => true,
+            ),
+            'tspan' => array(
+                'x' => true,
+                'y' => true,
+                'dx' => true,
+                'dy' => true,
+            ),
+            'g' => array(
+                'fill' => true,
+                'stroke' => true,
+                'stroke-width' => true,
+                'transform' => true,
+            ),
+            'defs' => array(),
+            'linearGradient' => array(
+                'id' => true,
+                'x1' => true,
+                'y1' => true,
+                'x2' => true,
+                'y2' => true,
+            ),
+            'radialGradient' => array(
+                'id' => true,
+                'cx' => true,
+                'cy' => true,
+                'r' => true,
+            ),
+            'stop' => array(
+                'offset' => true,
+                'stop-color' => true,
+                'stop-opacity' => true,
+            ),
+        );
+
+        $sanitized_svg = wp_kses($attributes['svgCode'], $allowed_svg_tags);
+
+        return '<div class="svg-block-content">' . $sanitized_svg . '</div>';
     }
 }
 
