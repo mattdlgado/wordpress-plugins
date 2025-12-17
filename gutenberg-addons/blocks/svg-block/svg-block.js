@@ -3,6 +3,7 @@
     var TextareaControl = components.TextareaControl;
     var InspectorControls = blockEditor.InspectorControls;
     var PanelBody = components.PanelBody;
+    var useBlockProps = blockEditor.useBlockProps;
     var __ = i18n.__;
 
     blocks.registerBlockType('custom/svg-block', {
@@ -10,6 +11,10 @@
         description: __('Añade código SVG personalizado', 'gutenberg-addons'),
         icon: 'art',
         category: 'widgets',
+        supports: {
+            align: true,
+            html: false
+        },
         attributes: {
             svgCode: {
                 type: 'string',
@@ -20,6 +25,7 @@
         edit: function (props) {
             var attributes = props.attributes;
             var setAttributes = props.setAttributes;
+            var blockProps = useBlockProps ? useBlockProps() : {};
 
             function onChangeSVGCode(newCode) {
                 setAttributes({ svgCode: newCode });
@@ -27,7 +33,7 @@
 
             return el(
                 'div',
-                { className: 'svg-block-editor' },
+                blockProps,
                 el(InspectorControls, {},
                     el(PanelBody, { title: __('Configuración SVG', 'gutenberg-addons') },
                         el(TextareaControl, {
@@ -39,18 +45,21 @@
                         })
                     )
                 ),
-                el('div', { className: 'svg-preview' },
-                    el('p', {}, el('strong', {}, __('Vista previa:', 'gutenberg-addons'))),
-                    el('div', {
-                        dangerouslySetInnerHTML: { __html: attributes.svgCode }
-                    })
-                )
+                el('div', {
+                    dangerouslySetInnerHTML: { __html: attributes.svgCode }
+                })
             );
         },
 
         save: function (props) {
-            // Return null to use server-side rendering with sanitization
-            return null;
+            var blockProps = useBlockProps ? useBlockProps.save() : {};
+            
+            if (!props.attributes.svgCode) {
+                return null;
+            }
+
+            // Renderizar solo el SVG sin div contenedor usando RawHTML
+            return el(element.RawHTML, blockProps, props.attributes.svgCode);
         }
     });
 })(

@@ -1,11 +1,21 @@
-.svg-block-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 0;
-}
-
-.svg-block-content svg {
+/* El SVG se renderiza directamente sin contenedor */
+.wp-block-custom-svg-block svg {
     max-width: 100%;
     height: auto;
+    display: block;
+}
+
+/* Alineación */
+.wp-block-custom-svg-block.aligncenter {
+    text-align: center;
+}
+
+.wp-block-custom-svg-block.alignleft {
+    float: left;
+    margin-right: 2em;
+}
+
+.wp-block-custom-svg-block.alignright {
+    float: right;
+    margin-left: 2em;
 }
