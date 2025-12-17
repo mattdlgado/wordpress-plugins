@@ -306,7 +306,7 @@ class Gutenberg_Addons
 
         $sanitized_svg = wp_kses($attributes['svgCode'], $allowed_svg_tags);
 
-        return '<div class="svg-block-content">' . $sanitized_svg . '</div>';
+        return $sanitized_svg;
     }
 }
 
