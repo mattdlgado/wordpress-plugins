@@ -1,35 +1,13 @@
-/* Placeholder cuando no hay SVG */
-.wp-block[data-type="custom/svg-block"] .components-placeholder {
-    min-height: 200px;
-    padding: 1em;
-}
-
-.wp-block[data-type="custom/svg-block"] .components-placeholder__label {
-    margin-bottom: 1em;
-}
-
-.wp-block[data-type="custom/svg-block"] .svg-code-input textarea {
-    font-family: Menlo, Consolas, monaco, monospace;
-    font-size: 13px;
-    line-height: 1.5;
-    border: 1px solid #ddd;
-    border-radius: 2px;
-    padding: 8px;
-    width: 100%;
-}
-
-/* Preview del SVG */
-.wp-block-svg-preview {
-    position: relative;
-    padding: 20px;
-    background: #f0f0f0;
-    border: 1px solid #ddd;
-    border-radius: 2px;
+.svg-preview {
+    margin-top: 20px;
     text-align: center;
 }
 
-.wp-block-svg-preview:hover .svg-edit-controls {
-    opacity: 1;
+.svg-preview p {
+    margin-bottom: 10px;
+    text-align: left;
+    font-size: 13px;
+    color: #1e1e1e;
 }
 
 .svg-preview-content {
@@ -37,28 +15,10 @@
     justify-content: center;
     align-items: center;
     min-height: 100px;
+    /* SIN fondo, SIN borde, SIN padding extra */
 }
 
 .svg-preview-content svg {
     max-width: 100%;
     height: auto;
-}
-
-.svg-edit-controls {
-    margin-top: 12px;
-    opacity: 0.6;
-    transition: opacity 0.2s ease;
-}
-
-/* Alineación */
-.wp-block[data-type="custom/svg-block"][data-align="left"] .svg-preview-content {
-    justify-content: flex-start;
-}
-
-.wp-block[data-type="custom/svg-block"][data-align="right"] .svg-preview-content {
-    justify-content: flex-end;
-}
-
-.wp-block[data-type="custom/svg-block"][data-align="center"] .svg-preview-content {
-    justify-content: center;
 }

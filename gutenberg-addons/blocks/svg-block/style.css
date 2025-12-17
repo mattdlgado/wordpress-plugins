@@ -1,29 +1,21 @@
-/* Estilos base para SVG en el frontend */
-.wp-block-custom-svg-block {
-    display: block;
-}
-
+/* El SVG se renderiza directamente sin contenedor */
 .wp-block-custom-svg-block svg {
     max-width: 100%;
     height: auto;
     display: block;
 }
 
-/* Alineación */
+/* Alineación si se usa */
+.wp-block-custom-svg-block.aligncenter {
+    text-align: center;
+}
+
 .wp-block-custom-svg-block.alignleft {
     float: left;
     margin-right: 2em;
-    margin-bottom: 1em;
 }
 
 .wp-block-custom-svg-block.alignright {
     float: right;
     margin-left: 2em;
-    margin-bottom: 1em;
-}
-
-.wp-block-custom-svg-block.aligncenter {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
 }
