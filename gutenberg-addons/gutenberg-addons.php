@@ -197,7 +197,7 @@ class Gutenberg_Addons
                 'xmlns' => true,
                 'width' => true,
                 'height' => true,
-                'viewbox' => true,
+                'viewBox' => true,
                 'fill' => true,
                 'stroke' => true,
                 'stroke-width' => true,
