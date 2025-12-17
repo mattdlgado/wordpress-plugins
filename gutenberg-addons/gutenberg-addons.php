@@ -187,126 +187,130 @@ class Gutenberg_Addons
      */
     public function svg_block_render($attributes, $content)
     {
+        // Si el bloque ya tiene contenido guardado (desde save()), usarlo
+        if (!empty($content)) {
+            // El contenido ya viene del save() function, solo sanitizarlo
+            $allowed_svg_tags = array(
+                'svg' => array(
+                    'xmlns' => true,
+                    'width' => true,
+                    'height' => true,
+                    'viewBox' => true,
+                    'fill' => true,
+                    'stroke' => true,
+                    'stroke-width' => true,
+                    'class' => true,
+                    'id' => true,
+                    'aria-hidden' => true,
+                    'aria-labelledby' => true,
+                    'role' => true,
+                ),
+                'circle' => array(
+                    'cx' => true,
+                    'cy' => true,
+                    'r' => true,
+                    'fill' => true,
+                    'stroke' => true,
+                    'stroke-width' => true,
+                ),
+                'rect' => array(
+                    'x' => true,
+                    'y' => true,
+                    'width' => true,
+                    'height' => true,
+                    'rx' => true,
+                    'ry' => true,
+                    'fill' => true,
+                    'stroke' => true,
+                    'stroke-width' => true,
+                ),
+                'path' => array(
+                    'd' => true,
+                    'fill' => true,
+                    'stroke' => true,
+                    'stroke-width' => true,
+                    'stroke-linecap' => true,
+                    'stroke-linejoin' => true,
+                ),
+                'line' => array(
+                    'x1' => true,
+                    'y1' => true,
+                    'x2' => true,
+                    'y2' => true,
+                    'stroke' => true,
+                    'stroke-width' => true,
+                ),
+                'polyline' => array(
+                    'points' => true,
+                    'fill' => true,
+                    'stroke' => true,
+                    'stroke-width' => true,
+                ),
+                'polygon' => array(
+                    'points' => true,
+                    'fill' => true,
+                    'stroke' => true,
+                    'stroke-width' => true,
+                ),
+                'ellipse' => array(
+                    'cx' => true,
+                    'cy' => true,
+                    'rx' => true,
+                    'ry' => true,
+                    'fill' => true,
+                    'stroke' => true,
+                    'stroke-width' => true,
+                ),
+                'text' => array(
+                    'x' => true,
+                    'y' => true,
+                    'font-size' => true,
+                    'font-family' => true,
+                    'fill' => true,
+                    'text-anchor' => true,
+                ),
+                'tspan' => array(
+                    'x' => true,
+                    'y' => true,
+                    'dx' => true,
+                    'dy' => true,
+                ),
+                'g' => array(
+                    'fill' => true,
+                    'stroke' => true,
+                    'stroke-width' => true,
+                    'transform' => true,
+                ),
+                'defs' => array(),
+                'linearGradient' => array(
+                    'id' => true,
+                    'x1' => true,
+                    'y1' => true,
+                    'x2' => true,
+                    'y2' => true,
+                ),
+                'radialGradient' => array(
+                    'id' => true,
+                    'cx' => true,
+                    'cy' => true,
+                    'r' => true,
+                ),
+                'stop' => array(
+                    'offset' => true,
+                    'stop-color' => true,
+                    'stop-opacity' => true,
+                ),
+            );
+
+            return wp_kses($content, $allowed_svg_tags);
+        }
+
+        // Fallback para bloques antiguos sin contenido guardado
         if (empty($attributes['svgCode'])) {
             return '';
         }
 
-        // Permitir solo elementos y atributos SVG seguros
-        $allowed_svg_tags = array(
-            'svg' => array(
-                'xmlns' => true,
-                'width' => true,
-                'height' => true,
-                'viewBox' => true,
-                'fill' => true,
-                'stroke' => true,
-                'stroke-width' => true,
-                'class' => true,
-                'id' => true,
-                'aria-hidden' => true,
-                'aria-labelledby' => true,
-                'role' => true,
-            ),
-            'circle' => array(
-                'cx' => true,
-                'cy' => true,
-                'r' => true,
-                'fill' => true,
-                'stroke' => true,
-                'stroke-width' => true,
-            ),
-            'rect' => array(
-                'x' => true,
-                'y' => true,
-                'width' => true,
-                'height' => true,
-                'rx' => true,
-                'ry' => true,
-                'fill' => true,
-                'stroke' => true,
-                'stroke-width' => true,
-            ),
-            'path' => array(
-                'd' => true,
-                'fill' => true,
-                'stroke' => true,
-                'stroke-width' => true,
-                'stroke-linecap' => true,
-                'stroke-linejoin' => true,
-            ),
-            'line' => array(
-                'x1' => true,
-                'y1' => true,
-                'x2' => true,
-                'y2' => true,
-                'stroke' => true,
-                'stroke-width' => true,
-            ),
-            'polyline' => array(
-                'points' => true,
-                'fill' => true,
-                'stroke' => true,
-                'stroke-width' => true,
-            ),
-            'polygon' => array(
-                'points' => true,
-                'fill' => true,
-                'stroke' => true,
-                'stroke-width' => true,
-            ),
-            'ellipse' => array(
-                'cx' => true,
-                'cy' => true,
-                'rx' => true,
-                'ry' => true,
-                'fill' => true,
-                'stroke' => true,
-                'stroke-width' => true,
-            ),
-            'text' => array(
-                'x' => true,
-                'y' => true,
-                'font-size' => true,
-                'font-family' => true,
-                'fill' => true,
-                'text-anchor' => true,
-            ),
-            'tspan' => array(
-                'x' => true,
-                'y' => true,
-                'dx' => true,
-                'dy' => true,
-            ),
-            'g' => array(
-                'fill' => true,
-                'stroke' => true,
-                'stroke-width' => true,
-                'transform' => true,
-            ),
-            'defs' => array(),
-            'linearGradient' => array(
-                'id' => true,
-                'x1' => true,
-                'y1' => true,
-                'x2' => true,
-                'y2' => true,
-            ),
-            'radialGradient' => array(
-                'id' => true,
-                'cx' => true,
-                'cy' => true,
-                'r' => true,
-            ),
-            'stop' => array(
-                'offset' => true,
-                'stop-color' => true,
-                'stop-opacity' => true,
-            ),
-        );
-
-        $sanitized_svg = wp_kses($attributes['svgCode'], $allowed_svg_tags);
-
-        return '<div class="svg-block-content">' . $sanitized_svg . '</div>';
+        return wp_kses($attributes['svgCode'], $allowed_svg_tags);
     }
 }
 
