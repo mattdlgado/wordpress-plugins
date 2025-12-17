@@ -187,10 +187,6 @@ class Gutenberg_Addons
      */
     public function svg_block_render($attributes, $content)
     {
-        if (empty($attributes['svgCode'])) {
-            return '';
-        }
-
         // Permitir solo elementos y atributos SVG seguros
         $allowed_svg_tags = array(
             'svg' => array(
@@ -304,9 +300,18 @@ class Gutenberg_Addons
             ),
         );
 
-        $sanitized_svg = wp_kses($attributes['svgCode'], $allowed_svg_tags);
+        // Si el bloque ya tiene contenido guardado (desde save()), usarlo
+        if (!empty($content)) {
+            // El contenido ya viene del save() function, solo sanitizarlo
+            return wp_kses($content, $allowed_svg_tags);
+        }
 
-        return '<div class="svg-block-content">' . $sanitized_svg . '</div>';
+        // Fallback para bloques antiguos sin contenido guardado
+        if (empty($attributes['svgCode'])) {
+            return '';
+        }
+
+        return wp_kses($attributes['svgCode'], $allowed_svg_tags);
     }
 }
 

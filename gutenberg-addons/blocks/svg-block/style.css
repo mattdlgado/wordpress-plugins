@@ -1,11 +1,29 @@
-.svg-block-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 0;
+/* Estilos base para SVG en el frontend */
+.wp-block-custom-svg-block {
+    display: block;
 }
 
-.svg-block-content svg {
+.wp-block-custom-svg-block svg {
     max-width: 100%;
     height: auto;
+    display: block;
+}
+
+/* Alineación */
+.wp-block-custom-svg-block.alignleft {
+    float: left;
+    margin-right: 2em;
+    margin-bottom: 1em;
+}
+
+.wp-block-custom-svg-block.alignright {
+    float: right;
+    margin-left: 2em;
+    margin-bottom: 1em;
+}
+
+.wp-block-custom-svg-block.aligncenter {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
